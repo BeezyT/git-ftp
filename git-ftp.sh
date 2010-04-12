@@ -15,7 +15,7 @@ DEFAULT_PROTOCOL="ftp"
 DEPLOYED_SHA1_FILE=".git-ftp.log"
 GIT_BIN="/usr/bin/git"
 CURL_BIN="/usr/bin/curl"
-LCK_FILE="`basename $0`.lck"
+LCK_FILE=".git/`basename $0`.lck"
 
 # ------------------------------------------------------------
 # Defaults
