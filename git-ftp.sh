@@ -356,12 +356,18 @@ fi
 
 # Calculate total file count
 done_items=0
-total_items=`echo ${FILES_CHANGED} | wc -w`
+total_items=`echo "${FILES_CHANGED}" | wc -l`
 total_items=$((total_items+0)) # trims whitespaces produced by wc
 write_log "There are ${total_items} changed files"
 
 # Upload to ftp
 if [ $CATCHUP -ne 1 ]; then
+    
+    # change internal field separator, so that filenames can contain spaces
+    OIFS="${IFS}"
+    NIFS=$'\n'
+    IFS="${NIFS}"
+    
     for file in ${FILES_CHANGED}; do
         done_items=$(($done_items+1))
         # File exits?
@@ -380,6 +386,9 @@ if [ $CATCHUP -ne 1 ]; then
             fi
         fi
     done
+    
+    IFS="${OIFS}"
+    
 fi
  
 # if successful, remember the SHA1 of last commit
