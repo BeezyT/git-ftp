@@ -208,6 +208,13 @@ release_lock() {
     rm -f "${LCK_FILE}"
 }
 
+# Check if this is a git project here
+if [ ! -d ".git" ]; then
+    write_error "Not a git project? Exiting..."
+    release_lock
+    exit 1
+fi
+
 # Checks locking, make sure this only run once a time
 if [ -f "${LCK_FILE}" ]; then
 
@@ -232,13 +239,6 @@ fi
 # ------------------------------------------------------------
 # Main part
 # ------------------------------------------------------------
-
-# Check if this is a git project here
-if [ ! -d ".git" ]; then
-    write_error "Not a git project? Exiting..."
-    release_lock
-    exit 1
-fi 
 
 # Check if the git working dir is dirty
 DIRTY_REPO=`${GIT_BIN} update-index --refresh | wc -l ` 
